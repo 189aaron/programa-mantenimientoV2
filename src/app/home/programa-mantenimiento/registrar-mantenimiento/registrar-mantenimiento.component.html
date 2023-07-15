@@ -1,0 +1,57 @@
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        Registro de Mantenimiento <br>
+                        {{equipment_name}}
+                    </div>
+                    <div class="card-body">
+                        <form #maintenanceForm class="row g-2 needs-validation" name="loginForm" (ngSubmit)="add_maintenance(maintenanceForm, $event)" novalidate autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="description_of_workLabel" class="form-label">Descripción del trabajo</label>
+                                <input type="text" name="description_of_work" class="form-control" id="description_of_workLabel"
+                                    placeholder="Ingresa descripción" required>
+                                <div class="invalid-feedback">
+                                    Descripción del trabajo es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="intervalsLabel" class="form-label">Frecuencia (horas)</label>
+                                <input type="number" name="intervals" class="form-control" id="intervalsLabel"
+                                    placeholder="Ingresa una Frecuencia en horas" required>
+                                <div class="invalid-feedback">
+                                    Frecuencia es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="hoursLabel" class="form-label">Horas acumuladas</label>
+                                <input type="number" name="hours" class="form-control" id="hoursLabel"
+                                    placeholder="Ingresa las horas que lleva el mantenimiento" required>
+                                <div class="invalid-feedback">
+                                    Horas es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="alertLabel" class="form-label">Alertar faltando # horas</label>
+                                <input type="number" name="alert" class="form-control" id="alertLabel"
+                                    placeholder="Ingrese el numero de horas para el aviso" required>
+                                <div class="invalid-feedback">
+                                    Alerta de horas es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="RegisterEquipmentText" class="form-label">Observaciones</label>
+                                <textarea class="form-control" name="observations" placeholder="Ingrese las observaciones o anotaciones sobre el mantenimiento del equipo" rows="4" class="form-control" id="RegisterEquipmentText"></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

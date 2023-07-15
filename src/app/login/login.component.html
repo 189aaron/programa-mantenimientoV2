@@ -1,0 +1,33 @@
+<section class="fondoLogin vh-100">
+    <div class="container">
+        <div class="row vh-100 align-items-center justify-content-center">
+            <div class="col-sm-12 col-md-9 col-lg-7 col-xl-6">
+                <p class="text-center"><img src="/assets/img/logoCopo.png" alt="" width="80"></p>
+                <h2 class="text-white text-center">Bienvenido</h2>
+                <p class="text-white text-center">Ingresa con tus credenciales </p>
+                <div class="bg-white rounded-3 p-5">
+                    <h4 class="text-center mb-3 fw-semibold">Iniciar sesión</h4>
+                    <form #loginForm class="row g-2 needs-validation" name="loginForm" novalidate (submit)="onLogin(loginForm, $event)" autocomplete="off">
+                        <div class="form-floating">
+                            <input type="email" name="email" class="form-control" id="loginEmail" placeholder="Ingresa tu correo" required>
+                            <label for="loginEmail">Correo electrónico</label>
+                            <div class="invalid-feedback">
+                                Correo es requerido
+                            </div>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" name="password" class="form-control" id="loginPass" placeholder="Ingresa tu contraseña" required>
+                            <label for="loginPass">Contraseña</label>
+                            <div class="invalid-feedback">
+                                Contraseña es requerido
+                            </div>
+                        </div>
+                        <div class="d-grid my-3">
+                            <button class="btn btn-primary btn-lg" type="submit">Iniciar sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

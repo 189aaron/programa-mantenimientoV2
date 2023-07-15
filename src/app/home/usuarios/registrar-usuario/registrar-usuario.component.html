@@ -1,0 +1,87 @@
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        Registrar Usuario
+                    </div>
+                    <div class="card-body">
+                        <form #formRegister class="row g-2 needs-validation" name="loginForm" novalidate
+                            (submit)="registerUser(formRegister, $event)" autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="emailUser" class="form-label">Correo electrónico</label>
+                                <input type="email" name="email" class="form-control" id="emailUser"
+                                    placeholder="Ingresa correo electrónico" required>
+                                <div class="invalid-feedback">
+                                    Correo electrónico es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="passwordUser">Contraseña</label>
+                                <input type="password" name="password" class="form-control" id="passwordUser"
+                                    placeholder="Ingresa la contraseña" required>
+                                <div class="invalid-feedback">
+                                    Contraseña es requerida
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="nameUser" class="form-label">Nombre</label>
+                                <input type="text" name="nameUser" class="form-control" id="nameUser"
+                                    placeholder="Ingresa el nombre completo del usuario" required>
+                                <div class="invalid-feedback">
+                                    Nombre es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="departamentoUser">Departamento/Base</label>
+                                <select class="form-select" aria-label="Departamento" name="departamento"
+                                    id="departamentoUser" required>
+                                    <option value="DEPARTAMENTO MAQUINAS">Departamento Máquinas</option>
+                                    <option value="DEPARTAMENTO CUBIERTA">Departamento Cubiertas</option>
+                                    <option value="OFICINA CENTRAL">Oficinal Central</option>
+                                    <option value="BASE PACIFICO">Base Pacífico</option>
+                                    <option value="BASE GOLFO">Base Golfo</option>
+                                    <option value="BASE MEXICO">Base México</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3" *ngIf="sessionData.superUsuario">
+                                <label for="buqueUser">Buque Oceanográfico</label>
+                                <select class="form-select" aria-label="Buque" name="buque" id="buqueUser" required>
+                                    <option value="EL PUMA">El Puma</option>
+                                    <option value="JUSTO SIERRA">Justo Sierra</option>
+                                    <option value="AMBOS">Ambos</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="cargoUser">Cargo</label>
+                                <select class="form-select" aria-label="Cargo" name="cargo" id="cargoUser" required>
+                                    <option value="JEFE DE MAQUINAS">Jefe de Maquinas</option>
+                                    <option value="1er OFICIAL DE MAQUINAS">1er Oficial de Máquinas</option>
+                                    <option value="2do OFICIAL DE MAQUINAS">2do Oficial de Máquinas</option>
+                                    <option value="CAPITAN">Capitán</option>
+                                    <option value="1er OFICIAL DE CUBIERTA">1er Oficial de Cubierta</option>
+                                    <option value="2do OFICIAL DE CUBIERTA">2do Oficial de Cubierta</option>
+                                    <option value="DELEGADO ADMINISTRATIVO">Delegado Administrativo</option>
+                                    <option value="USUARIO GENERAL">Usuario General</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

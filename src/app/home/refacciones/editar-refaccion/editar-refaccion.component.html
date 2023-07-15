@@ -1,0 +1,64 @@
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        Editar Refacción
+                    </div>
+                    <div class="card-body">
+                        <form #formUpdateSparePart class="row g-2 needs-validation" name="formUpdateSparePart"
+                            novalidate (submit)="update_sparepart(formUpdateSparePart, $event)" autocomplete="off">
+                            
+                            <div class="form-group mb-3">
+                                <label for="amountLabel" class="form-label">Cantidad *</label>
+                                <input type="number" name="amount" placeholder="" class="form-control" id="amountLabel" [(ngModel)]="amount">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="descriptionLabel" class="form-label">Descripción *</label>
+                                <input type="text" name="description" placeholder="" class="form-control" id="descriptionLabel" [(ngModel)]="description">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="positionLabel" class="form-label">Posición</label>
+                                <input type="text" name="position" placeholder="" class="form-control" id="positionLabel" [(ngModel)]="position">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="num_partLabel" class="form-label">Numero de parte</label>
+                                <input type="text" name="num_part" placeholder="" class="form-control" id="num_partLabel" [(ngModel)]="num_part">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="num_refLabel" class="form-label">Numero de refacción</label>
+                                <input type="number" name="num_ref" placeholder="" class="form-control" id="num_refLabel" [(ngModel)]="num_ref">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="itemLabel" class="form-label">Item</label>
+                                <input type="number" name="item" placeholder="" class="form-control" id="itemLabel" [(ngModel)]="item">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="sheet_diagramLabel" class="form-label">Lamina/Diagrama</label>
+                                <input type="text" name="sheet_diagram" placeholder="" class="form-control" id="sheet_diagramLabel" [(ngModel)]="sheet_diagram">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="planoLabel" class="form-label">Plano</label>
+                                <input type="text" name="plano" placeholder="" class="form-control" id="planoLabel" [(ngModel)]="plano">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="modelLabel" class="form-label">Modelo</label>
+                                <input type="text" name="model" placeholder="" class="form-control" id="modelLabel" [(ngModel)]="model">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="observationsText" class="form-label">Observaciones</label>
+                                <textarea class="form-control" name="observations" rows="3" class="form-control"
+                                id="observationsText" [(ngModel)]="observations"></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            </div>
+                            <p class="text-end pt-3"> <small>* Estos campos son obligatorios</small></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

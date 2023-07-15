@@ -1,0 +1,123 @@
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-lg-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        ActualizarEquipo
+                    </div>
+                    <div class="card-body">
+                        <form #formRegisterEquipment class="row g-2 needs-validation" name="updateEquipmentForm"
+                            novalidate (submit)="updateEquipment(formRegisterEquipment, $event)" autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="unamNumberLabel" class="form-label">Número de grupo *</label>
+                                <input type="text" name="group_no" class="form-control" id="unamNumberLabel"
+                                    placeholder="Número de grupo" [(ngModel)]="group_no" required>
+                                <div class="invalid-feedback">
+                                    Número de grupo es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="nameLabel" class="form-label">Nombre del equipo *</label>
+                                <input type="text" name="nameEquipment" class="form-control" id="nameLabel"
+                                    placeholder="Nombre del equipo" [(ngModel)]="nameEquipment" required>
+                                <div class="invalid-feedback">
+                                    Nombre del equipo es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="locationLabel" class="form-label">Localización</label>
+                                <input type="text" name="location" placeholder="Localización" class="form-control"
+                                    id="locationLabel" [(ngModel)]="location">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="partShipEquipment">Ubicación dentro del buque *</label>
+                                <select class="form-select" aria-label="Ubicación dentro del buque" name="part_ship"
+                                    id="partShipEquipment" [(ngModel)]="part_ship" required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="PROA">Proa</option>
+                                    <option value="POPA">Popa</option>
+                                    <option value="ESTRIBOR">Estribor</option>
+                                    <option value="BABOR">Babor</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3" *ngIf="sessionData.superUsuario">
+                                <label for="buquePSU">Navio al que pertenece *</label>
+                                <select class="form-select" aria-label="Ubicación dentro del buque" name="ship"
+                                    id="buquePSU" [(ngModel)]="ship" required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="EL PUMA">El Puma</option>
+                                    <option value="JUSTO SIERRA">Justo Sierra</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3" *ngIf="sessionData.superUsuario">
+                                <label for="departamentoBuquePSU">Departamento al que pertenece *</label>
+                                <select class="form-select" aria-label="Departamento dentro del buque"
+                                    name="department_or_base" id="departamentoBuquePSU" [(ngModel)]="department_or_base"
+                                    required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="DEPARTAMENTO MAQUINAS">Departamento Máquinas</option>
+                                    <option value="DEPARTAMENTO CUBIERTA">Departamento Cubiertas</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="trademarkLabel" class="form-label">Marca del equipo</label>
+                                <input type="text" name="trademark" placeholder="" class="form-control"
+                                    id="trademarkLabel" [(ngModel)]="trademark">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="modelLabel" class="form-label">Modelo del equipo</label>
+                                <input type="text" name="model" placeholder="" class="form-control" id="modelLabel"
+                                    [(ngModel)]="model">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="typeLabel" class="form-label">Tipo</label>
+                                <input type="text" name="type" placeholder="Tipo" class="form-control" id="typeLabel"
+                                    [(ngModel)]="type">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="serialNumberLabel" class="form-label">Número de serie *</label>
+                                <input type="text" name="serial_number" placeholder="Número de serie"
+                                    class="form-control" id="serialNumberLabel" [(ngModel)]="serial_number" required>
+                                <div class="invalid-feedback">
+                                    Número de serie es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="powerLabel" class="form-label">Potencia</label>
+                                <input type="text" name="power" placeholder="Potencia" class="form-control"
+                                    id="powerLabel" [(ngModel)]="power">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="fechaLabel" class="form-label">Fecha de calibración</label>
+                                <input type="date" name="calibration_date_date" placeholder="Fecha de calibración"
+                                    class="form-control" id="fechaLabel" [(ngModel)]="calibration_date_date">
+                                <input type="time" name="calibration_date_time" placeholder="Hora de calibración"
+                                    class="form-control" [(ngModel)]="calibration_date_time">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="RegisterEquipmentText" class="form-label">Observaciones</label>
+                                <textarea class="form-control" name="observations" rows="4" class="form-control"
+                                    id="RegisterEquipmentText" [(ngModel)]="observations"></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            </div>
+                            <p class="text-end pt-3"> <small>* Estos campos son obligatorios</small></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

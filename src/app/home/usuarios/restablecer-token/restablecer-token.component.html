@@ -1,0 +1,29 @@
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        Reenviar token
+                    </div>
+                    <div class="card-body">
+                        <form #formRefres class="row g-2 needs-validation" name="loginForm" novalidate
+                            (submit)="refreshToken(formRefres, $event)" autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="emailUser" class="form-label">Correo electrónico</label>
+                                <input type="email" name="email" class="form-control" id="emailUser"
+                                    placeholder="Ingresa correo electrónico" required>
+                                <div class="invalid-feedback">
+                                    Correo electrónico es requerido
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Reenviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

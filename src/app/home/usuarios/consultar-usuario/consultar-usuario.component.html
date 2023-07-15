@@ -1,0 +1,69 @@
+<section class="container-fluid justify-content-center py-4">
+    <h3 class="ms-5 fw-bold">Consulta de Usuarios</h3>
+    <div class="row py-3 text-center">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col">Nombre de Usuario</th>
+                            <th class="col">Correo</th>
+                            <th class="col">Departamento o Base</th>
+                            <th class="col">Posición</th>
+                            <th class="col">Buque</th>
+                            <th class="col">Cuenta Bloqueada</th>
+                            <th class="col">Correo Verificado</th>
+                            <th class="col">Usuario Eliminado</th>
+                            <th class="col">Fecha Alta</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="7" class="text-center" [innerHTML]="conData"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let usuario of users_array;">
+                            <td>{{usuario.name}}</td>
+                            <td>{{usuario.email}}</td>
+                            <td>{{usuario.department_or_base}}</td>
+                            <td>{{usuario.position}}</td>
+                            <td>{{usuario.ship}}</td>
+                            <td>{{usuario.is_active ? 'No' : 'Si'}}</td>
+                            <td>{{usuario.is_verified ? 'Si' : 'No'}}</td>
+                            <td>{{usuario.status_delete ? 'Si' : 'No'}}</td>
+                            <td>{{usuario.created_at}}</td>
+                            <td>
+                                <button class="btn btn-azul" (click)="editarUsuario(usuario)"> Editar </button>
+                                <button class="btn btn-oro" data-bs-toggle="modal" data-bs-target="#eliminarUser"
+                                    (click)="pasarUser(usuario)">
+                                    Borrar </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Eliminar Usuario-->
+<div class="modal fade" id="eliminarUser" tabindex="-1" aria-labelledby="eliminarUserLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header cardHeader">
+                <h1 class="modal-title fs-5 text-light">Borrar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3 text-center">
+                <p>Esta acción eliminará permanentemente al usuario seleccionado.</p>
+                <h5>¿Está seguro de que desea continuar?</h5>
+                <button type="button" class="btn btn-oro btn-lg" (click)="borrarUsuario()"> Eliminar </button>
+                <div [innerHTML]="errorDelete"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-azul" data-bs-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>

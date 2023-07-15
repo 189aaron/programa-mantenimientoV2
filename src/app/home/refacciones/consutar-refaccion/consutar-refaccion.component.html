@@ -1,0 +1,79 @@
+<section class="container-fluid justify-content-center py-4">
+    <h3 class="ms-5 fw-bold">Consulta de Refacciones</h3>
+    <div class="row py-3 text-center">
+        <div class="row pt-3">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col">Equipo al que pertenece</th>
+                                <th class="col">Número de serie de Equipo</th>
+                                <th class="col">Cantidad</th>
+                                <th class="col">Descripción</th>
+                                <th class="col">Posición</th>
+                                <th class="col">Número parte</th>
+                                <th class="col">Número refacción</th>
+                                <th class="col">Lamina y/o Diagrama</th>
+                                <th class="col">Item</th>
+                                <th class="col">Plano</th>
+                                <th class="col">Modelo</th>
+                                <th class="col">Observaciones</th>
+                                <th *ngIf="sessionData.superUsuario  || sessionData.ambosBuques" class="col">Buque Oceanográfico</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                        </tr>
+                        <tbody *ngIf="whit_data">
+                            <tr *ngFor="let sparepart of sparepart_array;">
+                                <td>{{sparepart.equipment_id.name}}</td>
+                                <td>{{sparepart.equipment_id.serial_number}}</td>
+                                <td>{{sparepart.amount}}</td>
+                                <td>{{sparepart.description}}</td>
+                                <td>{{sparepart.position}}</td>
+                                <td>{{sparepart.num_part}}</td>
+                                <td>{{sparepart.num_ref}}</td>
+                                <td>{{sparepart.sheet_diagram}}</td>
+                                <td>{{sparepart.item}}</td>
+                                <td>{{sparepart.plano}}</td>
+                                <td>{{sparepart.model}}</td>
+                                <td>{{sparepart.observations}}</td>
+                                <td *ngIf="sessionData.superUsuario || sessionData.ambosBuques">{{sparepart.equipment_id.ship}}</td>
+                                <td *ngIf="vistaPrincipal">{{sparepart.equipment_id.name}}</td>
+                                <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador">
+                                    <button class="btn btn-azul" (click)="updateSparePart(sparepart)">Editar</button>
+                                    <button class="btn btn-oro" data-bs-toggle="modal" data-bs-target="#eliminarRefaccion" (click)="pasarEquipo(sparepart)">Borrar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Eliminar Refacción-->
+<div class="modal fade" id="eliminarRefaccion" tabindex="-1" aria-labelledby="eliminarRefaccionLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header cardHeader">
+                <h1 class="modal-title fs-5 text-light">Borrar Refacción</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3 text-center">
+                <p>Esta acción eliminará permanentemente la refacción seleccionada.</p>
+                <h5>¿Está seguro de que desea continuar?</h5>
+                <p>Esta acción no se puede deshacer.</p>
+                <button type="button" class="btn btn-oro btn-lg" (click)="deleteSparePart()"> Eliminar </button>
+                <div [innerHTML]="errorDelete"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-azul" data-bs-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>

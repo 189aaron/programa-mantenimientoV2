@@ -1,0 +1,73 @@
+<section class="container-fluid justify-content-center py-4">
+    <h3 class="ms-5 fw-bold">Consulta de Mantenimientos</h3>
+    <div class="row py-3 text-center">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col">Equipo</th>
+                            <th class="col">Descripción</th>
+                            <th class="col">Observaciones</th>
+                            <th class="col">Frecuencia (en horas)</th>
+                            <th class="col">Fecha último mantenimiento</th>
+                            <th class="col">Horas acumuladas</th>
+                            <th class="col">Alertar faltando # horas</th>
+                            <th class="col">Próximo Mantenimiento</th>
+                            <th class="col">Horas restantes</th>
+                            <th class="col">Mantenimiento</th>
+                            <th class="col">Estatus mantenimiento</th>
+                            <th class="col">Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let equipo of equipment_array;">
+                            <td>{{equipo.equipment}}</td>
+                            <td>{{equipo.description_of_work}}</td>
+                            <td>{{equipo.observations}}</td>
+                            <td>{{equipo.intervals}}</td>
+                            <td>{{equipo.last_maintenance_date}}</td>
+                            <td>{{equipo.hours}}</td>
+                            <td>{{equipo.alert}}</td>
+                            <td>{{equipo.next_maintenance}}</td>
+                            <td>{{equipo.remaining_hours}}</td>
+                            <td>{{equipo.maintenance}}</td>
+                            <td>{{equipo.maintenance_status}}</td>
+                            <td>{{equipo.register_date}}</td>
+                            <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador">
+                                <button class="btn btn-azul btn-sm" (click)="updateMaintenance(equipo)">Editar Mantenimiento</button>
+                                <button class="btn btn-oro btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarMantenimiento" (click)="pasarMantenimiento(equipo)">Eliminar Mantenimiento</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Eliminar MAntenimiento-->
+<div class="modal fade" id="eliminarMantenimiento" tabindex="-1" aria-labelledby="eliminarMantenimientoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header cardHeader">
+                <h1 class="modal-title fs-5 text-light">Borrar Mantenimiento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3 text-center">
+                <p>Esta acción eliminará permanentemente el Mantenimiento seleccionado.</p>
+                <h5>¿Está seguro de que desea continuar?</h5>
+                <p>Esta acción no se puede deshacer.</p>
+                <button type="button" class="btn btn-oro btn-lg" (click)="deleteMaintenance()" > Eliminar </button>
+                <div [innerHTML]="errorDelete"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-azul" data-bs-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>

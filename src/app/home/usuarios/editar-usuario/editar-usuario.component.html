@@ -1,0 +1,127 @@
+<!--<section>
+    <div class="container-fluid justify-content-center pt-5">
+        <div class="row pt-5">
+            <div class="col-sm-8 col-md-6 col-xl-4 mx-auto pt-5">
+                <div class="card bg-light mb-3">
+                    <div class="card-header text-center">Actualizar Usuario</div>
+                    <div class="card-body">
+                        <form novalidate="" class="form-group p-2" #formRegister="ngForm"
+                            (ngSubmit)="updateUser(formRegister)" autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="nameLabel" class="form-label">Nombre</label>
+                                <input type="text" name="name" placeholder="" class="form-control" [(ngModel)]="name">
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="Departamento/Base" name="department_or_base" [(ngModel)]="department_or_base">
+                                    <option value="DEPARTAMENTO MAQUINAS">Departamento Máquinas</option>
+                                    <option value="DEPARTAMENTO CUBIERTA">Departamento Cubiertas</option>
+                                    <option value="OFICINA CENTRAL">Oficinal Central</option>
+                                    <option value="BASE PACIFICO">Base Pacífico</option>
+                                    <option value="BASE GOLFO">Base Golfo</option>
+                                    <option value="BASE MEXICO">Base México</option>
+                                </select>
+                                <label for="departamentoSelect" class="form-label">Departamento/Base</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="Buque" name="ship" [(ngModel)]="ship">
+                                    <option value="EL PUMA">El Puma</option>
+                                    <option value="JUSTO SIERRA">Justo Sierra</option>
+                                    <option value="AMBOS">Ambos</option>
+                                </select>
+                                <label for="floatingSelect">Buque Oceanográfico</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="Cargo" name="position" [(ngModel)]="position">
+                                    <option value="JEFE DE MAQUINAS">Jefe de Maquinas</option>
+                                    <option value="1er OFICIAL DE MAQUINAS">1er Oficial de Máquinas</option>
+                                    <option value="2do OFICIAL DE MAQUINAS">2do Oficial de Máquinas</option>
+                                    <option value="CAPITAN">Capitán</option>
+                                    <option value="1er OFICIAL DE CUBIERTA">1er Oficial de Cubierta</option>
+                                    <option value="2do OFICIAL DE CUBIERTA">2do Oficial de Cubierta</option>
+                                    <option value="DELEGADO ADMINISTRATIVO">Delegado Administrativo</option>
+                                    <option value="USUARIO GENERAL">Usuario General</option>
+                                </select>
+                                <label for="floatingSelect">Cargo</label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>-->
+
+<section>
+    <div class="container-fluid justify-content-center">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-xl-4 mx-auto py-5">
+                <div class="card bg-light mb-3 shadow-lg">
+                    <div class="card-header text-center cardHeader fw-bold text-light">
+                        Actualizar Usuario
+                    </div>
+                    <div class="card-body">
+                        <form #formUpdate class="row g-2 needs-validation" name="loginForm" novalidate
+                            (submit)="updateUser(formUpdate, $event)" autocomplete="off">
+                            <div class="form-group mb-3">
+                                <label for="nameUser" class="form-label">Nombre</label>
+                                <input type="text" name="nameUser" class="form-control" id="nameUser"
+                                    placeholder="Ingresa el nombre completo del usuario" [(ngModel)]="nameUser" required>
+                                <div class="invalid-feedback">
+                                    Nombre es requerido
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="departamentoUser">Departamento/Base</label>
+                                <select class="form-select" aria-label="Departamento" name="departamento"
+                                    id="departamentoUser" [(ngModel)]="departamento" required>
+                                    <option value="DEPARTAMENTO MAQUINAS">Departamento Máquinas</option>
+                                    <option value="DEPARTAMENTO CUBIERTA">Departamento Cubiertas</option>
+                                    <option value="OFICINA CENTRAL">Oficinal Central</option>
+                                    <option value="BASE PACIFICO">Base Pacífico</option>
+                                    <option value="BASE GOLFO">Base Golfo</option>
+                                    <option value="BASE MEXICO">Base México</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3" *ngIf="sessionData.superUsuario">
+                                <label for="buqueUser">Buque Oceanográfico</label>
+                                <select class="form-select" aria-label="Buque" name="buque" id="buqueUser" [(ngModel)]="buque" required>
+                                    <option value="EL PUMA">El Puma</option>
+                                    <option value="JUSTO SIERRA">Justo Sierra</option>
+                                    <option value="AMBOS">Ambos</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="cargoUser">Cargo</label>
+                                <select class="form-select" aria-label="Cargo" name="cargo" id="cargoUser" [(ngModel)]="cargo" required>
+                                    <option value="JEFE DE MAQUINAS">Jefe de Maquinas</option>
+                                    <option value="1er OFICIAL DE MAQUINAS">1er Oficial de Máquinas</option>
+                                    <option value="2do OFICIAL DE MAQUINAS">2do Oficial de Máquinas</option>
+                                    <option value="CAPITAN">Capitán</option>
+                                    <option value="1er OFICIAL DE CUBIERTA">1er Oficial de Cubierta</option>
+                                    <option value="2do OFICIAL DE CUBIERTA">2do Oficial de Cubierta</option>
+                                    <option value="DELEGADO ADMINISTRATIVO">Delegado Administrativo</option>
+                                    <option value="USUARIO GENERAL">Usuario General</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debes escoger una opción
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

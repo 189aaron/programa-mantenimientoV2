@@ -1,0 +1,199 @@
+<section class="container-fluid justify-content-center py-4">
+    <h3 class="ms-5 fw-bold">Programar Mantenimiento</h3>
+    <div class="row py-3 text-center">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col text-end">Número de grupo</th>
+                            <th class="col">Nombre del equipo</th>
+                            <!--
+                            <th class="col text-center">Horas Acumuladas</th>-->
+                            <th *ngIf="sessionData.superUsuario  || sessionData.ambosBuques" class="col">Buque
+                                Oceanografico</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let equipo of equipment_array;">
+                            <td class="text-end">{{equipo.group_no}}</td>
+                            <td>{{equipo.name}}</td>
+                            <!--
+                            <td class="text-center">{{equipo.hours}}</td>-->
+                            <td *ngIf="sessionData.superUsuario || sessionData.ambosBuques">{{equipo.ship}}</td>
+                            <!--<td *ngIf="superUsuario == false && userAdministrador == false">
+                                    <button class="btn btn-azul">Consultar Horas</button>
+                                </td>-->
+                            <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador"><!--
+                                <button class="btn btn-azul btn-sm" data-bs-toggle="modal" data-bs-target="#modalMonth" (click)="pasarDatos(equipo)">Registrar Mes</button>-->
+                                <button class="btn btn-oro btn-sm" (click)="reistrarMantenimiento(equipo)">Programar Mantenimiento</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <div class="row pt-3">
+        <div class="col-auto me-auto ms-5">
+            <form (ngSubmit)="list_hour(formListHour)" novalidate class="form-group" #formListHour="ngForm"
+                autocomplete="off">
+                <h4>Seleciona un Mes</h4>
+                <div class="form-group mb-3">
+                    <label for="Label" class="form-label"><span class="h4">Seleciona un Mes</span></label>
+                    <input type="month" name="month" placeholder="" class="form-control" ngModel>
+                    <div class="d-grid pt-3">
+                        <button type="submit" class="btn btn-oro btn-lg">Buscar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-3">
+            <h5 class="pt-5">Mes: <span class="h3">{{mesConsulta}}</span></h5>
+            <h5>Año: <span class="h3">{{anioConsulta}}</span></h5>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col">Nombre del equipo</th>
+                            <th class="col">Lectura anterior</th>
+                            <th class="col">Lectura actual</th>
+                            <th class="col">Horas agregadas en el mes</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="12" class="text-center" [innerHTML]="conDataList"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let equipo of hours_array;">
+                            <td>{{equipo.equipment}}</td>
+                            <td>{{equipo.previous}}</td>
+                            <td>{{equipo.current}}</td>
+                            <td>{{equipo.current - equipo.previous}}</td>
+                            <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador">
+                                <button class="btn btn-azul btn-sm" data-bs-toggle="modal" data-bs-target="#modalHours"
+                                    (click)="pasarDatosHoras(equipo)"> Agregar
+                                    Horas </button>
+                                <button type="button" class="btn btn-oro" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" (click)="pasarDatosHoras(equipo)">Eliminar
+                                    Horas/Mes</button>
+                            </td>
+                            <td *ngIf="superUsuario == false && userAdministrador == false">
+                                    <button class="btn btn-azul">Consultar Horas</button>
+                                </td>
+                                
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>-->
+</section>
+
+<!-- Modal Registro Horas-->
+<div class="modal fade" id="modalHours" tabindex="-1" aria-labelledby="modalHoursLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Captura Hora</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form novalidate class="form-group" #formRegisterHours="ngForm"
+                    (ngSubmit)="register_hour(formRegisterHours)" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <label for="nombreLabel">Nombre del equipo</label>
+                        <input type="text" name="equipmentName" id="nombreLabel" placeholder="" class="form-control"
+                            [(ngModel)]="equipmentName" disabled>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="mesLabel">Mes de registro</label>
+                        <input type="month" name="monthDate" id="mesLabel" placeholder="" class="form-control" [(ngModel)]="monthDate"
+                            disabled>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="horasLabel">Horas a registrar</label>
+                        <input type="number" name="current" id="horasLabel" placeholder="" class="form-control" ngModel>
+                    </div>
+                    <div class="py-3" [innerHTML]="errorHoras"></div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-azul btn-lg">Registrar Horas</button>
+                    </div><!--
+                    <p class="text-end pt-3"> <small>* Estos campos son obligatorios</small></p>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-oro" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Registro Mes-->
+<div class="modal fade" id="modalMonth" tabindex="-1" aria-labelledby="modalMonthLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Captura Mes</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form novalidate class="form-group" #formRegisterMonth="ngForm"
+                    (ngSubmit)="register_month(formRegisterMonth)" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <label for="equipmentName">Nombre del equipo</label>
+                        <input type="text" id="equipmentName" name="equipmentName" placeholder="" class="form-control"
+                            [(ngModel)]="equipmentName" disabled>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="monthName">Mes de registro</label>
+                        <input type="month" name="month" id="monthName" placeholder="" class="form-control" ngModel>
+                    </div>
+                    <div class="py-3" [innerHTML]="errorMes"></div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-azul btn-lg">Registrar Mes</button>
+                    </div><!--
+                    <p class="text-end pt-3"> <small>* Estos campos son obligatorios</small></p>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--TODO En el onclick ir de nuevo por los datos para "recargar la pagina"-->
+                <button type="button" class="btn btn-oro" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar Mes-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Mes</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro de eliminar el registro del mes?
+                <div class="d-grid pt-3">
+                    <button type="submit" class="btn btn-azul" (click)="deleteMonth()">Eliminar</button>
+                </div>
+                <div class="py-3" [innerHTML]="borrarMes"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-oro" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
