@@ -40,6 +40,38 @@ export class ConsultarEquipoComponent {
     }
   }
 
+  search_equipment(form: HTMLFormElement, event: Event) {
+    if (form.checkValidity()) {
+      // Si el formulario es válido
+      event.preventDefault(); // Evita la recarga de la página
+      event.stopPropagation(); // Evita la propagación del evento
+
+      this.equipment_array = [];//borrando la data para el nuevo arreglo
+
+      const selectSearch = form['selectSearch'].value;
+      const inputSearch = form['inputSearch'].value;
+
+      if (selectSearch == 'disabled') {
+        this.get_list_disabled();
+      } else if (selectSearch == 'name') {
+        this.get_list_name(inputSearch);
+      } else if (selectSearch == 'number') {
+        this.get_list_num_inv(inputSearch);
+      } else if (selectSearch == 'model') {
+        this.get_list_model(inputSearch);
+      } else if (selectSearch == 'trademark') {
+        this.get_list_trademark(inputSearch);
+      } 
+      
+
+    } else {
+      // Si el formulario no es válido
+      event.preventDefault(); // Evita la recarga de la página
+      event.stopPropagation(); // Evita la propagación del evento
+    }
+    form.classList.add('was-validated');
+  }
+
   async get_equipment() {
     let httpOptions = {
       headers: new HttpHeaders({
@@ -76,10 +108,70 @@ export class ConsultarEquipoComponent {
       //no trae data
       this.conData =
         `<h3 class="text-center py-3">
-          Aun no tenemos datos que mostrarte
+          No tenemos datos que mostrarte
         </h3>
         `;
       this.whit_data = false;
+    }
+  }
+
+  async get_list_disabled() {
+    try {
+      const response = await this.equipmentService.get_equipment_list_disabled();
+      console.log('get_list_disabled local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+    }
+  }
+
+  async get_list_name(listName: string) {
+    try {
+      const response = await this.equipmentService.get_equipment_list_name(listName);
+      console.log('get_list_name local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+    }
+  }
+
+  async get_list_num_inv(unam_number: string) {
+    try {
+      const response = await this.equipmentService.get_equipment_list_num_inv(unam_number);
+      console.log('get_list_num_inv local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+    }
+  }
+
+  async get_list_model(model: string) {
+    try {
+      const response = await this.equipmentService.get_equipment_list_model(model);
+      console.log('get_list_model local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+    }
+  }
+
+  async get_list_trademark(model: string) {
+    try {
+      const response = await this.equipmentService.get_equipment_list_trademark(model);
+      console.log('get_list_trademark local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
     }
   }
 

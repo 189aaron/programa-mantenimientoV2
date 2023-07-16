@@ -1,5 +1,24 @@
 <section class="container-fluid justify-content-center py-4">
     <h3 class="ms-5 fw-bold">Consulta de Equipos</h3>
+
+    <form #formRegisterEquipment class="row justify-content-end g-3 needs-validation" name="searchForm" novalidate
+        (submit)="search_equipment(formRegisterEquipment, $event)" autocomplete="off">
+        <div class="col-auto">
+            <select class="form-select" aria-label="" name="selectSearch" id="" required>
+                <option value="name" selected>Nombre del equipo</option>
+                <option value="disabled">Deshabilitados</option>
+                <option value="number">Número de serie</option>
+                <option value="trademark">Marca del equipo</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="inputSearch" placeholder="Busqueda..." class="form-control" id="inputSearchLabel">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+        </div>
+    </form>
+
     <div class="row py-3 text-center">
         <div class="col">
             <div class="table-responsive">
@@ -17,7 +36,8 @@
                             <th class="col">Potencia</th>
                             <th class="col">Fecha de calibración</th>
                             <th class="col">Observaciones</th>
-                            <th *ngIf="sessionData.superUsuario || sessionData.ambosBuques" class="col">Buque Oceanografico</th>
+                            <th *ngIf="sessionData.superUsuario || sessionData.ambosBuques" class="col">Buque
+                                Oceanografico</th>
                         </tr>
                     </thead>
                     <tr>
@@ -47,7 +67,8 @@
                                 <button class="btn btn-oro btn-sm" (click)="getSparePart(equipo)">Consultar
                                     Refacciones</button>
                                 <button class="btn btn-azul" (click)="updateEquipment(equipo)">Editar</button>
-                                <button class="btn btn-oro" data-bs-toggle="modal" data-bs-target="#eliminarEquipo" (click)="pasarEquipo(equipo)">Borrar</button>
+                                <button class="btn btn-oro" data-bs-toggle="modal" data-bs-target="#eliminarEquipo"
+                                    (click)="pasarEquipo(equipo)">Borrar</button>
                             </td>
                         </tr>
                     </tbody>
@@ -58,7 +79,8 @@
 </section>
 
 <!-- Modal Eliminar Equipo-->
-<div class="modal fade" id="eliminarEquipo" tabindex="-1" aria-labelledby="eliminarEquipoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="eliminarEquipo" tabindex="-1" aria-labelledby="eliminarEquipoLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header cardHeader">

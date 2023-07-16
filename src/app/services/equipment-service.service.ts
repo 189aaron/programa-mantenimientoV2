@@ -141,5 +141,187 @@ export class EquipmentServiceService {
     })
 
   }
+
+  async deleteMaintenance(equipment_id: any, id: any): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'id': id,
+          'equipment_id': equipment_id,
+        }
+      };
+
+      this.http.delete(this.loginService.path + 'configure_maintenances/', httpOptions).subscribe({
+        next: () => {
+          //implementar exito
+          alert('Mantenimieno borrado con éxito');
+          this.router.navigate(['/home/programa-mantenimiento/consulta']);
+          resolve(true);
+        },
+        error: (error: any) => {
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else {
+            alert(error.error.detail);
+          }
+          reject(false);
+        }
+      })
+
+    });
+  }
+
+  async get_equipment_list_disabled(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        })
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/disabled', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
+  async get_equipment_list_name(name_equipment:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'name': name_equipment,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/name', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
+  async get_equipment_list_num_inv(unam_number:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'unam_number': unam_number,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/num_inv', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
+  async get_equipment_list_model(model:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'model': model,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/model', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
+  async get_equipment_list_trademark(trademark:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'trademark': trademark,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/trademark', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
 }
 

@@ -27,7 +27,6 @@ export class ConsutarRefaccionComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: AuthServiceService,
-    private sparepartService: SparepartServiceService,
     public sessionData: SessionDataService,
     private route: ActivatedRoute,
     private http: HttpClient
