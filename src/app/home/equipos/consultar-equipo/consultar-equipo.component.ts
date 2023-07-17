@@ -23,6 +23,8 @@ export class ConsultarEquipoComponent {
   //para los modal de hora y mes
   modalEliminarEquipo: any;
 
+  selectedOption: string = 'name';
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -51,7 +53,7 @@ export class ConsultarEquipoComponent {
       const selectSearch = form['selectSearch'].value;
       const inputSearch = form['inputSearch'].value;
 
-      if (selectSearch == 'disabled') {
+        if(selectSearch == 'disabled') {
         this.get_list_disabled();
       } else if (selectSearch == 'name') {
         this.get_list_name(inputSearch);
@@ -61,8 +63,8 @@ export class ConsultarEquipoComponent {
         this.get_list_model(inputSearch);
       } else if (selectSearch == 'trademark') {
         this.get_list_trademark(inputSearch);
-      } 
-      
+      }
+
 
     } else {
       // Si el formulario no es válido
@@ -71,6 +73,20 @@ export class ConsultarEquipoComponent {
     }
     form.classList.add('was-validated');
   }
+
+  onSelectChange() {
+    const selectSearch = document.getElementById("selectSearch") as HTMLSelectElement;
+    const inputSearch = document.getElementById("inputSearchLabel") as HTMLInputElement;
+
+    inputSearch.value = "";//Borro el valor del input en cambio de seleccion
+    if (selectSearch.value == "disabled") {
+      inputSearch.disabled = true;
+    } else {
+      inputSearch.disabled = false;
+    }
+  }
+
+
 
   async get_equipment() {
     let httpOptions = {
@@ -104,6 +120,7 @@ export class ConsultarEquipoComponent {
       //si tiene data
       this.whit_data = true;
       this.equipment_array = data;
+      this.conData = ``;
     } else {
       //no trae data
       this.conData =
@@ -206,9 +223,9 @@ export class ConsultarEquipoComponent {
   async deleteEquipment() {
     try {
       const result = await this.equipmentService.delete_equipment(this.serial_number);
-      console.log(result); // true
+      //console.log(result); // true
     } catch (error) {
-      console.log(error); // false
+      //console.log(error); // false
     } finally {
       window.location.reload();
       //this.modalEliminarEquipo.hide();//Cierro modal

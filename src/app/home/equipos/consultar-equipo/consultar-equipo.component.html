@@ -4,9 +4,11 @@
     <form #formRegisterEquipment class="row justify-content-end g-3 needs-validation" name="searchForm" novalidate
         (submit)="search_equipment(formRegisterEquipment, $event)" autocomplete="off">
         <div class="col-auto">
-            <select class="form-select" aria-label="" name="selectSearch" id="" required>
+            <select class="form-select" aria-label="" name="selectSearch" id="selectSearch" [(ngModel)]="selectedOption"
+                (change)="onSelectChange()" required>
                 <option value="name" selected>Nombre del equipo</option>
                 <option value="disabled">Deshabilitados</option>
+                <option value="model">Modelo del equipo</option>
                 <option value="number">Número de serie</option>
                 <option value="trademark">Marca del equipo</option>
             </select>
