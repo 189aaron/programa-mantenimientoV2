@@ -1,3 +1,16 @@
+/* Establecer la altura fija para la tabla */
+.fixed-height-table {
+  max-height: 50vh; /* Ajusta la altura fija como desees */
+  overflow-y: auto;
+}
+
+/* Hacer que el thead sea pegajoso (sticky) para que permanezca visible mientras se desplaza el tbody */
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa; /* Cambia el color de fondo si lo deseas */
+}
+
 // Bootstrap as module
 @import "../node_modules/bootstrap/scss/bootstrap";
 
@@ -67,3 +80,5 @@
   transition-duration: 0.4s;
 }
 // ******************* para los botones *******************// 
+
+
