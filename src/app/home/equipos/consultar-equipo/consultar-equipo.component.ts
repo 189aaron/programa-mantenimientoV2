@@ -58,7 +58,8 @@ export class ConsultarEquipoComponent {
       } else if (selectSearch == 'name') {
         this.get_list_name(inputSearch);
       } else if (selectSearch == 'number') {
-        this.get_list_num_inv(inputSearch);
+        this.get_list_group_no(inputSearch);
+        //Revisar
       } else if (selectSearch == 'model') {
         this.get_list_model(inputSearch);
       } else if (selectSearch == 'trademark') {
@@ -156,10 +157,10 @@ export class ConsultarEquipoComponent {
     }
   }
 
-  async get_list_num_inv(unam_number: string) {
+  async get_list_group_no(group_no: string) {
     try {
-      const response = await this.equipmentService.get_equipment_list_num_inv(unam_number);
-      console.log('get_list_num_inv local');
+      const response = await this.equipmentService.get_equipment_list_group_no(group_no);
+      console.log('get_list_group_no local');
       console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);

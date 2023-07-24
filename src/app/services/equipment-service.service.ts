@@ -233,7 +233,7 @@ export class EquipmentServiceService {
     });
   }
 
-  async get_equipment_list_num_inv(unam_number:string): Promise<any> {
+  async get_equipment_list_group_no(group_no:string): Promise<any> {
     return new Promise((resolve, reject) => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -241,11 +241,11 @@ export class EquipmentServiceService {
           'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
         }),
         params: {
-          'unam_number': unam_number,
+          'group_no': group_no,
         }
       };
 
-      this.http.get(this.loginService.path + 'equipment_list/num_inv', httpOptions).subscribe({
+      this.http.get(this.loginService.path + 'equipment_list/group_no', httpOptions).subscribe({
         next: (response: any) => {
           resolve(response); // Resolves the promise with the response data
         },
