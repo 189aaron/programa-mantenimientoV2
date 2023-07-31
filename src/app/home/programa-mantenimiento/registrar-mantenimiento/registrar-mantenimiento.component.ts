@@ -14,6 +14,13 @@ export class RegistrarMantenimientoComponent {
   serial_number: string = '';
   equipment_name: string = '';
 
+  selectedOption: string = 'name';
+
+
+  horasForm: boolean = false;
+  diasForm: boolean = false;
+  fechaForm: boolean = false;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -41,17 +48,35 @@ export class RegistrarMantenimientoComponent {
 
       const description_of_work = form['description_of_work'].value;
       const intervals = form['intervals'].value;//enteros
-      const hours = form['hours'].value;//enteros
+      const hours_days = form['hours_days'].value;//enteros
       const observations = form['observations'].value;
       const alert = form['alert'].value;
 
-      this.maintenancetService.register_maintenance(this.serial_number,description_of_work, parseInt(intervals), parseInt(hours), observations, alert);
+      this.maintenancetService.register_maintenance(this.serial_number, description_of_work, parseInt(intervals), parseInt(hours_days), observations, alert);
     } else {
       // Si el formulario no es válido
       event.preventDefault(); // Evita la recarga de la página
       event.stopPropagation(); // Evita la propagación del evento
     }
     form.classList.add('was-validated');
+  }
+
+  onSelectChange() {
+    const timeLabel = document.getElementById("timeLabel") as HTMLSelectElement;
+
+    if (timeLabel.value == 'HORAS') {
+      this.horasForm = true;
+      this.diasForm = false;
+      this.fechaForm = false;
+    } else if (timeLabel.value == 'DIAS') {
+      this.diasForm = true;
+      this.horasForm = false;
+      this.fechaForm = false;
+    } else if (timeLabel.value == 'FECHA') {
+      this.fechaForm = true;
+      this.horasForm = false;
+      this.diasForm = false;
+    }
   }
 
 }

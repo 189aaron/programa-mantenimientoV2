@@ -13,7 +13,7 @@ export class MaintenanceServiceService {
     private loginService: AuthServiceService,
     private http: HttpClient) { }
 
-  register_maintenance(serial_number: any, description_of_work: any, intervals: number, hours: number, observations: any, alertPropertie: any) {
+  register_maintenance(serial_number: any, description_of_work: any, intervals: number, hours_days: number, observations: any, alertPropertie: any) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -24,11 +24,24 @@ export class MaintenanceServiceService {
       }
     };
 
+    //ver el body de initialdate debe venir time e initial_date
+    /* 
+    const body = {
+      'description_of_work': description_of_work,
+      'time':time,
+      'intervals': intervals,
+      'initial_date': initial_date,
+      'observations': observations,
+      'alert': alertPropertie
+    };
+    */
+
     const body = {
       'description_of_work': description_of_work,
       'intervals': intervals,
-      'hours': hours,
+      'hours_days': hours_days,
       'observations': observations,
+      //'initial_date': initial_date, lo tengo que enviar con yoeli hack
       'alert': alertPropertie
     };
 

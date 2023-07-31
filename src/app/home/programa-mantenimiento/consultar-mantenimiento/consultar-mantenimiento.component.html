@@ -1,5 +1,16 @@
 <section class="container-fluid justify-content-center py-4">
     <h3 class="ms-5 fw-bold">Consulta de Mantenimientos</h3>
+
+    <form #formEstatusMatenimiento class="row justify-content-end g-3 needs-validation" name="searchForm" novalidate
+         autocomplete="off">
+        <div class="col-auto">
+            <label for="selectSearch">Estatus Mantenimiento</label>
+            <select class="form-select" aria-label="" name="selectSearch" id="selectSearch"  required>
+                <option value="vigente" selected>Vigente</option>
+                <option value="vencido">Vencido</option>
+            </select>
+        </div>
+    </form>
     <!--TODO: Implementar filtros de busqueda, Yoeli lo proporcionará-->
     <div class="row py-3 text-center">
         <div class="col">
@@ -10,7 +21,7 @@
                             <th class="col">Equipo</th>
                             <th class="col">Descripción</th>
                             <th class="col">Observaciones</th>
-                            <th class="col">Frecuencia (en horas)</th>
+                            <th class="col">Frecuencia en horas</th>
                             <th class="col">Fecha último mantenimiento</th>
                             <th class="col">Horas acumuladas</th>
                             <th class="col">Alertar faltando # horas</th>
@@ -32,10 +43,113 @@
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.observations}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.intervals}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.last_maintenance_date}}</td>
-                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.hours}}</td>
-                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}" >{{equipo.alert}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.hours_days}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.alert}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.next_maintenance}}</td>
-                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.remaining_hours}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.remaining_time}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance_status}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.register_date}}</td>
+                            <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador">
+                                <button class="btn btn-azul btn-sm" (click)="updateMaintenance(equipo)">Editar
+                                    Mantenimiento</button>
+                                <button class="btn btn-oro btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#eliminarMantenimiento"
+                                    (click)="pasarMantenimiento(equipo)">Eliminar Mantenimiento</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <div class="row py-3 text-center">
+        <div class="col">
+            <div class="table-responsive fixed-height-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col">Equipo</th>
+                            <th class="col">Descripción</th>
+                            <th class="col">Observaciones</th>
+                            <th class="col">Frecuencia en días</th>
+                            <th class="col">Fecha último mantenimiento</th>
+                            <th class="col">Días acumulados</th>
+                            <th class="col">Alertar faltando # días</th>
+                            <th class="col">Próximo Mantenimiento</th>
+                            <th class="col">Días restantes</th>
+                            <th class="col">Mantenimiento</th>
+                            <th class="col">Estatus mantenimiento</th>
+                            <th class="col">Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let equipo of equipment_array;" >
+                            <!--TODO: Buscar una forma de eficientar esto-->
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.equipment}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.description_of_work}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.observations}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.intervals}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.last_maintenance_date}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.hours_days}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.alert}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.next_maintenance}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.remaining_time}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance_status}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.register_date}}</td>
+                            <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador">
+                                <button class="btn btn-azul btn-sm" (click)="updateMaintenance(equipo)">Editar
+                                    Mantenimiento</button>
+                                <button class="btn btn-oro btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#eliminarMantenimiento"
+                                    (click)="pasarMantenimiento(equipo)">Eliminar Mantenimiento</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row py-3 text-center">
+        <div class="col">
+            <div class="table-responsive fixed-height-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col">Equipo</th>
+                            <th class="col">Descripción</th>
+                            <th class="col">Observaciones</th>
+                            <th class="col">Frecuencia en meses</th>
+                            <th class="col">Fecha último mantenimiento</th>
+                            <th class="col">Fecha inicial</th>
+                            <th class="col">Alertar faltando # días</th>
+                            <th class="col">Próximo Mantenimiento</th>
+                            <th class="col">Días restantes</th>
+                            <th class="col">Mantenimiento</th>
+                            <th class="col">Estatus mantenimiento</th>
+                            <th class="col">Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                    </tr>
+                    <tbody *ngIf="whit_data">
+                        <tr *ngFor="let equipo of equipment_array;" >
+                            <!--TODO: Buscar una forma de eficientar esto-->
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.equipment}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.description_of_work}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.observations}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.intervals}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.last_maintenance_date}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.initial_date}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.alert}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.next_maintenanceDate}}</td>
+                            <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.remaining_time}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.maintenance_status}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.register_date}}</td>

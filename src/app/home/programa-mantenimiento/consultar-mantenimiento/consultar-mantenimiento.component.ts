@@ -53,6 +53,7 @@ export class ConsultarMantenimientoComponent {
     this.http.get(this.loginService.path + 'maintenances/', httpOptions).subscribe({
       next: (response: any) => {
         this.get_list_equiptment(response);
+        //ver la forma de recorrer la respuesta para filtrar los mantenimientos por horas dias y fechas
       },
       error: (error: any) => {
         if (error.error.code == 'token_not_valid') {
@@ -60,10 +61,9 @@ export class ConsultarMantenimientoComponent {
           this.loginService.logout();
         } else if (error.status == '400') {
           alert(error.error.detail);
-        } else {
-          //TODO ver el error 404 not found
-          alert(error.error.detail);
-        }
+        } else if (error.status == '500') {
+          alert('Error del servidor \nPor favor contacte al administrador')
+        } 
       }
     })
   }
