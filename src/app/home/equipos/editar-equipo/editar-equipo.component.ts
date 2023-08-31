@@ -16,7 +16,7 @@ export class EditarEquipoComponent implements OnInit {
   group_no: string = '';
   nameEquipment: string = '';
   location: string = '';
-  part_ship: string = '';
+  equipment_responsible: string = '';
   ship: string = '';
   department_or_base: string = '';
   trademark: string = '';
@@ -43,7 +43,7 @@ export class EditarEquipoComponent implements OnInit {
     this.group_no = this.route.snapshot.queryParams['group_no'];
     this.nameEquipment = this.route.snapshot.queryParams['name'];
     this.location = this.route.snapshot.queryParams['location'];
-    this.part_ship = this.route.snapshot.queryParams['part_ship'];
+    this.equipment_responsible = this.route.snapshot.queryParams['equipment_responsible'];
     this.ship = this.route.snapshot.queryParams['ship'];
     this.department_or_base = this.route.snapshot.queryParams['department_or_base'];
     this.trademark = this.route.snapshot.queryParams['trademark'];
@@ -74,7 +74,7 @@ export class EditarEquipoComponent implements OnInit {
       let group_no = form['group_no'].value;
       let nameEquipment = form['nameEquipment'].value;
       let location = form['location'].value;
-      let part_ship = form['part_ship'].value;
+      let equipment_responsible = form['equipment_responsible'].value;
       let ship = form['ship'].value;
       let department_or_base = form['department_or_base'].value;
       let trademark = form['trademark'].value;
@@ -93,7 +93,7 @@ export class EditarEquipoComponent implements OnInit {
         calibration_date_send = calibration_date_date + 'T' + calibration_date_time;
       }
 
-      this.equipmentService.updateEquipment(serial_number, group_no, nameEquipment, location, part_ship, ship, department_or_base, trademark, model, type, power, calibration_date_send, observations);
+      this.equipmentService.updateEquipment(serial_number, group_no, nameEquipment, location, equipment_responsible, ship, department_or_base, trademark, model, type, power, calibration_date_send, observations);
     } else {
       // Si el formulario no es válido
       event.preventDefault(); // Evita la recarga de la página

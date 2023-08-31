@@ -5,7 +5,8 @@
          autocomplete="off">
         <div class="col-auto">
             <label for="selectSearch">Estatus Mantenimiento</label>
-            <select class="form-select" aria-label="" name="selectSearch" id="selectSearch"  required>
+            <select class="form-select" aria-label="" name="selectSearch" id="selectSearch" [(ngModel)]="selectedOption"
+            (change)="onSelectChange()"  required>
                 <option value="vigente" selected>Vigente</option>
                 <option value="vencido">Vencido</option>
             </select>
@@ -30,13 +31,14 @@
                             <th class="col">Mantenimiento</th>
                             <th class="col">Estatus mantenimiento</th>
                             <th class="col">Fecha de registro</th>
+                            <th class="col">Acciones</th>
                         </tr>
                     </thead>
                     <tr>
-                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                        <td colspan="12" class="text-center" [innerHTML]="conData_hours"></td>
                     </tr>
-                    <tbody *ngIf="whit_data">
-                        <tr *ngFor="let equipo of equipment_array;" >
+                    <tbody *ngIf="whit_data_hours">
+                        <tr *ngFor="let equipo of equipment_array_hours;" >
                             <!--TODO: Buscar una forma de eficientar esto-->
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.equipment}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.description_of_work}}</td>
@@ -82,13 +84,14 @@
                             <th class="col">Mantenimiento</th>
                             <th class="col">Estatus mantenimiento</th>
                             <th class="col">Fecha de registro</th>
+                            <th class="col">Acciones</th>
                         </tr>
                     </thead>
                     <tr>
-                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                        <td colspan="12" class="text-center" [innerHTML]="conData_days"></td>
                     </tr>
-                    <tbody *ngIf="whit_data">
-                        <tr *ngFor="let equipo of equipment_array;" >
+                    <tbody *ngIf="whit_data_days">
+                        <tr *ngFor="let equipo of equipment_array_days;" >
                             <!--TODO: Buscar una forma de eficientar esto-->
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.equipment}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.description_of_work}}</td>
@@ -133,13 +136,14 @@
                             <th class="col">Mantenimiento</th>
                             <th class="col">Estatus mantenimiento</th>
                             <th class="col">Fecha de registro</th>
+                            <th class="col">Acciones</th>
                         </tr>
                     </thead>
                     <tr>
-                        <td colspan="12" class="text-center" [innerHTML]="conData"></td>
+                        <td colspan="12" class="text-center" [innerHTML]="conData_months"></td>
                     </tr>
-                    <tbody *ngIf="whit_data">
-                        <tr *ngFor="let equipo of equipment_array;" >
+                    <tbody *ngIf="whit_data_months">
+                        <tr *ngFor="let equipo of equipment_array_months;" >
                             <!--TODO: Buscar una forma de eficientar esto-->
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.equipment}}</td>
                             <td [ngStyle]="{'background-color': equipo.maintenance_status === 'VENCIDO' ? 'red' : '', 'color': equipo.maintenance_status === 'VENCIDO' ? 'white' : ''}">{{equipo.description_of_work}}</td>

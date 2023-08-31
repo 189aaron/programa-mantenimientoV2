@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EquipmentServiceService } from 'src/app/services/equipment-service.service';
@@ -12,9 +12,20 @@ import { MaintenanceServiceService } from 'src/app/services/maintenance-service.
   templateUrl: './consultar-mantenimiento.component.html'
 })
 export class ConsultarMantenimientoComponent {
-  conData: string = '';
-  whit_data: boolean = false;
+  path: string = this.loginService.path;
+  conData_hours: string = '';
+  conData_days: string = '';
+  conData_months: string = '';
+  whit_data_hours: boolean = false;
+  whit_data_days: boolean = false;
+  whit_data_months: boolean = false;
   equipment_array: any[] = [];
+  serial_numberAux = '';
+
+  // Arreglo existente
+  equipment_array_hours: any[] = [];
+  equipment_array_days: any[] = [];
+  equipment_array_months: any[] = [];
 
   equipmentDeleted: boolean = false;
   errorDelete: string = '';//Para borrar el mantenimiento
@@ -24,12 +35,15 @@ export class ConsultarMantenimientoComponent {
   equipment_id: string = '';
   id: string = '';
 
+  selectedOption: string = 'vigente';
+
   constructor(
     private router: Router,
     private http: HttpClient,
     private equipmentService: EquipmentServiceService,
     private maintenancetService: MaintenanceServiceService,
     public sessionData: SessionDataService,
+    private route: ActivatedRoute,
     private loginService: AuthServiceService) { }
 
   ngOnInit(): void {
@@ -37,20 +51,38 @@ export class ConsultarMantenimientoComponent {
     if (session == null || session == undefined) {
       this.router.navigate(['/login']);
     } else {
-      this.get_equipment();
+      this.serial_numberAux = this.route.snapshot.queryParams['serial_number'];
+      this.get_equipment(this.serial_numberAux);
       this.eliminarMantenimiento = new Modal(document.getElementById('eliminarMantenimiento')!);//saco el modal para borrar
     }
   }
 
-  async get_equipment() {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
-      })
-    };
+  async get_equipment(serial_number: string) {
+    let httpOptions: any;
 
-    this.http.get(this.loginService.path + 'maintenances/', httpOptions).subscribe({
+    if (serial_number == null || serial_number == undefined) {
+      this.path = this.path + 'maintenances/'
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        })
+      };
+    } else {
+      this.path = this.path + 'maintenance_list/equipment/'
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'serial_number': serial_number,
+        }
+      };
+    }
+
+
+    this.http.get(this.path, httpOptions).subscribe({
       next: (response: any) => {
         this.get_list_equiptment(response);
         //ver la forma de recorrer la respuesta para filtrar los mantenimientos por horas dias y fechas
@@ -63,7 +95,7 @@ export class ConsultarMantenimientoComponent {
           alert(error.error.detail);
         } else if (error.status == '500') {
           alert('Error del servidor \nPor favor contacte al administrador')
-        } 
+        }
       }
     })
   }
@@ -72,16 +104,45 @@ export class ConsultarMantenimientoComponent {
     //veo si tengo que mostrar
     if (data.length != 0) {
       //si tiene data
-      this.whit_data = true;
-      this.equipment_array = data;
-    } else {
-      //no trae data
-      this.conData =
+
+      //necesito recorrer el arreglo para agregarlo en el espacio que corresponde
+      for (var i = 0; i < data.length; i++) {
+        var auxTime = data[i].time;
+        if (auxTime == 'DIAS') {
+          this.whit_data_days = true;
+          this.equipment_array_days.push(data[i]);
+        } else if (auxTime == 'HORAS') {
+          this.whit_data_hours = true;
+          this.equipment_array_hours.push(data[i]);
+        } else if (auxTime == 'FECHA') {
+          this.whit_data_months = true;
+          this.equipment_array_months.push(data[i]);
+        }
+      }
+    }
+
+    //compruebo datos en cada arreglo
+    if (this.equipment_array_days.length == 0) {
+      this.whit_data_days = false;
+      this.conData_days =
         `<h3 class="text-center py-3">
           Aun no tenemos datos que mostrarte
         </h3>
         `;
-      this.whit_data = false;
+    } else if (this.equipment_array_hours.length == 0) {
+      this.whit_data_hours = false;
+      this.conData_hours =
+        `<h3 class="text-center py-3">
+          Aun no tenemos datos que mostrarte
+        </h3>
+        `;
+    } else if (this.equipment_array_months.length == 0) {
+      this.whit_data_months = false;
+      this.conData_months =
+        `<h3 class="text-center py-3">
+          Aun no tenemos datos que mostrarte
+        </h3>
+        `;
     }
   }
 
@@ -99,7 +160,7 @@ export class ConsultarMantenimientoComponent {
 
   async deleteMaintenance() {
     try {
-      const result = await this.maintenancetService.deleteMaintenance(this.equipment_id,this.id)
+      const result = await this.maintenancetService.deleteMaintenance(this.equipment_id, this.id)
       console.log(result); // true
     } catch (error) {
       console.log(error); // false
@@ -116,6 +177,16 @@ export class ConsultarMantenimientoComponent {
     //seteo nuevos valores
     this.equipment_id = equipo.equipment_id;
     this.id = equipo.id;
+  }
+
+  onSelectChange() {
+    //TODO: implementar función de linea 150
+    const selectSearch = document.getElementById("selectSearch") as HTMLSelectElement;
+    console.log(selectSearch.value);
+
+    //Consumir
+    ///maintenance_list/status/?maintenance_status=vencido
+    //Se debe leer la cadena y debo separa los elementos y agruparlos por frecuencia en dias, horas y meses
   }
 
 }

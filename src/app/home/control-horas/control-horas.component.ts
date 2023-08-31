@@ -235,7 +235,7 @@ export class ControlHorasComponent {
 
     this.http.delete(this.loginService.path + 'hours_counter/', httpOptions).subscribe({
       next: () => {
-        
+
         this.borrarMes = `<p class="text-success text-center">Mes borrado con éxito <br>Para ver la actualización da "clic" en el botón "Buscar"</p>`
       },
       error: () => {
@@ -392,9 +392,15 @@ export class ControlHorasComponent {
     this.modalMoth.hide();
   }
 
-  reistrarMantenimiento(equipo: any) {
+  registrarMantenimiento(equipo: any) {
     window.location.href =
       '#/home/programa-mantenimiento/registrar?serial_number=' + equipo.serial_number +
       '&equipment_name=' + equipo.name;
+  }
+
+  consultarMantenimiento(equipo: any) {
+    console.log(equipo.serial_number);
+    window.location.href =
+      '#/home/programa-mantenimiento/consulta?serial_number=' + equipo.serial_number
   }
 }

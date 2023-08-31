@@ -46,13 +46,29 @@ export class RegistrarMantenimientoComponent {
       event.preventDefault(); // Evita la recarga de la página
       event.stopPropagation(); // Evita la propagación del evento
 
+      //Estos datos son obligatorios en todos los formularios
       const description_of_work = form['description_of_work'].value;
-      const intervals = form['intervals'].value;//enteros
-      const hours_days = form['hours_days'].value;//enteros
       const observations = form['observations'].value;
-      const alert = form['alert'].value;
 
-      this.maintenancetService.register_maintenance(this.serial_number, description_of_work, parseInt(intervals), parseInt(hours_days), observations, alert);
+      //Aplica para los 3 formularios
+      const intervals = form['intervals'].value;//enteros
+      const alert = form['alert'].value;//enteros
+
+      let hours_days: any = ''
+      let initial_date: any = '';
+
+      const time = form['time'].value;//para decidir que datos voy a estraer
+      console.log(time)
+      if (time == 'HORAS' || time == 'DIAS') {
+        hours_days = form['hours_days'].value;//enteros
+        console.log(hours_days);
+      } else {
+        initial_date = form['initial_date'].value;//enteros
+        console.log(initial_date);
+      }
+
+      this.maintenancetService.register_maintenance(this.serial_number, description_of_work, parseInt(intervals), parseInt(hours_days), initial_date, observations, alert, time);
+
     } else {
       // Si el formulario no es válido
       event.preventDefault(); // Evita la recarga de la página

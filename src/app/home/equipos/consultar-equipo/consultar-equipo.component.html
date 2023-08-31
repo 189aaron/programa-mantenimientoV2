@@ -11,6 +11,7 @@
                 <option value="model">Modelo del equipo</option>
                 <option value="number">Número de grupo</option>
                 <option value="trademark">Marca del equipo</option>
+                <option value="equipment_responsible">Responsable del equipo</option>
             </select>
         </div>
         <div class="col-auto">
@@ -30,7 +31,7 @@
                             <th class="col">Número de grupo</th>
                             <th class="col">Nombre del equipo</th>
                             <th class="col">Localización del equipo</th>
-                            <th class="col">Ubicación el equipo</th>
+                            <th class="col">Responsable del equipo</th>
                             <th class="col">Marca del equipo</th>
                             <th class="col">Modelo del equipo</th>
                             <th class="col">Tipo</th>
@@ -40,6 +41,7 @@
                             <th class="col">Observaciones</th>
                             <th *ngIf="sessionData.superUsuario || sessionData.ambosBuques" class="col">Buque
                                 Oceanografico</th>
+                            <th class="col">Acciones</th>
                         </tr>
                     </thead>
                     <tr>
@@ -50,7 +52,7 @@
                             <td>{{equipo.group_no}}</td>
                             <td>{{equipo.name}}</td>
                             <td>{{equipo.location}}</td>
-                            <td>{{equipo.part_ship}}</td>
+                            <td>{{equipo.equipment_responsible}}</td>
                             <td>{{equipo.trademark}}</td>
                             <td>{{equipo.model}}</td>
                             <td>{{equipo.type}}</td>

@@ -13,7 +13,7 @@ export class EquipmentServiceService {
     private loginService: AuthServiceService,
     private http: HttpClient) { }
 
-  add_equipment(group_no: string, name: string, location: string, part_ship: string, trademark: string, model: string, type: string, ship: string, serial_number: string, power: string, calibration_date: string, observations: string, department_or_base: string) {
+  add_equipment(group_no: string, name: string, location: string, equipment_responsible: string, trademark: string, model: string, type: string, ship: string, serial_number: string, power: string, calibration_date: string, observations: string, department_or_base: string) {
     let httpOptions = {
       headers: new HttpHeaders({
 
@@ -26,7 +26,7 @@ export class EquipmentServiceService {
       'group_no': group_no,
       'name': name,
       'location': location,
-      'part_ship': part_ship,
+      'equipment_responsible': equipment_responsible,
       'trademark': trademark,
       'model': model,
       'type': type,
@@ -69,7 +69,7 @@ export class EquipmentServiceService {
           'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
         }),
         params: {
-          'serial_number': serial_number + '1',
+          'serial_number': serial_number,
         }
       };
 
@@ -94,7 +94,7 @@ export class EquipmentServiceService {
     });
   }
 
-  async updateEquipment(serial_number: any, group_no: any, nameEquipo: any, location: any, part_ship: any, ship: any, department_or_base: any, trademark: any, model: any, type: any, power: any, calibration_date: any, observations: any) {
+  async updateEquipment(serial_number: any, group_no: any, nameEquipo: any, location: any, equipment_responsible: any, ship: any, department_or_base: any, trademark: any, model: any, type: any, power: any, calibration_date: any, observations: any) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export class EquipmentServiceService {
       'group_no': group_no,
       'name': nameEquipo,
       'location': location,
-      'part_ship': part_ship,
+      'equipment_responsible': equipment_responsible,
       'ship': ship,
       'department_or_base': department_or_base,
       'trademark': trademark,
@@ -306,6 +306,36 @@ export class EquipmentServiceService {
       };
 
       this.http.get(this.loginService.path + 'equipment_list/trademark', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
+  async get_equipment_list_equipment_responsible(equipment_responsible:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'equipment_responsible': equipment_responsible,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'equipment_list/responsible', httpOptions).subscribe({
         next: (response: any) => {
           resolve(response); // Resolves the promise with the response data
         },

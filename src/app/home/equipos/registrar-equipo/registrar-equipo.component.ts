@@ -23,7 +23,7 @@ export class RegistrarEquipoComponent {
       const group_no = form['group_no'].value;
       const name = form['nameEquipment'].value;
       const location = form['location'].value;
-      const part_ship = form['part_ship'].value;
+      const equipment_responsible = form['equipment_responsible'].value;//Se actualiza a equipment_responsible
       const trademark = form['trademark'].value;
       const model = form['model'].value;
       const type = form['type'].value;
@@ -40,7 +40,7 @@ export class RegistrarEquipoComponent {
         calibration_date = calibration_date_date + 'T' + calibration_date_time;
       }
       
-      this.equipmentService.add_equipment(group_no, name, location, part_ship, trademark, model, type, ship, serial_number, power, calibration_date, observations, department_or_base);
+      this.equipmentService.add_equipment(group_no, name, location, equipment_responsible, trademark, model, type, ship, serial_number, power, calibration_date, observations, department_or_base);
 
     } else {
       // Si el formulario no es válido

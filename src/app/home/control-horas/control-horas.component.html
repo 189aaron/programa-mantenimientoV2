@@ -30,7 +30,8 @@
                                 </td>-->
                             <td *ngIf="sessionData.superUsuario || sessionData.userAdministrador"><!--
                                 <button class="btn btn-azul btn-sm" data-bs-toggle="modal" data-bs-target="#modalMonth" (click)="pasarDatos(equipo)">Registrar Mes</button>-->
-                                <button class="btn btn-oro btn-sm" (click)="reistrarMantenimiento(equipo)">Programar Mantenimiento</button>
+                                <button class="btn btn-azul btn-sm" (click)="registrarMantenimiento(equipo)">Programar Mantenimiento</button>
+                                <button class="btn btn-oro btn-sm" (click)="consultarMantenimiento(equipo)">Consulta Mantenimientos</button>
                             </td>
                         </tr>
                     </tbody>

@@ -32,7 +32,7 @@ export class SessionDataService {
       if (positionAux != null || positionAux != undefined) {
         if (positionAux == 'SUPERUSUARIO') {
           this.superUsuario = true;
-        } else if (positionAux == 'CAPITAN' || positionAux == 'JEFE DE MAQUINAS') {
+        } else if (positionAux == 'CAPITAN' || positionAux == 'JEFE DE MAQUINAS' || positionAux == '1er OFICIAL DE MAQUINAS' || positionAux == '2do OFICIAL DE MAQUINAS' || positionAux == '1er OFICIAL DE CUBIERTA' || positionAux == '2do OFICIAL DE CUBIERTA') {
           this.userAdministrador = true;
         }
         this.position = positionAux;//Paso la posición para el header

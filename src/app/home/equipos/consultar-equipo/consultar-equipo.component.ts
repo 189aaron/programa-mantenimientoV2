@@ -64,6 +64,8 @@ export class ConsultarEquipoComponent {
         this.get_list_model(inputSearch);
       } else if (selectSearch == 'trademark') {
         this.get_list_trademark(inputSearch);
+      } else if (selectSearch == 'equipment_responsible'){
+        this.get_list_equipment_responsible(inputSearch);
       }
 
 
@@ -193,6 +195,18 @@ export class ConsultarEquipoComponent {
     }
   }
 
+  async get_list_equipment_responsible(model: string) {
+    try {
+      const response = await this.equipmentService.get_equipment_list_equipment_responsible(model);
+      console.log('get_list_equipment_responsible local');
+      console.log(response)
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+    }
+  }
+
   addSparePart(equipo: any) {
     window.location.href =
       '#/home/refacciones/registrar?serial_number=' + equipo.serial_number +
@@ -205,7 +219,7 @@ export class ConsultarEquipoComponent {
       '&group_no=' + equipo.group_no +
       '&name=' + equipo.name +
       '&location=' + equipo.location +
-      '&part_ship=' + equipo.part_ship +
+      '&equipment_responsible=' + equipo.equipment_responsible +
       '&trademark=' + equipo.trademark +
       '&model=' + equipo.model +
       '&type=' + equipo.type +
@@ -224,6 +238,7 @@ export class ConsultarEquipoComponent {
   async deleteEquipment() {
     try {
       const result = await this.equipmentService.delete_equipment(this.serial_number);
+      console.log(this.serial_number)
       //console.log(result); // true
     } catch (error) {
       //console.log(error); // false
