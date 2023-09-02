@@ -35,7 +35,7 @@ export class ConsultarMantenimientoComponent {
   equipment_id: string = '';
   id: string = '';
 
-  selectedOption: string = 'vigente';
+  selectedOption: string = 'novalue';
 
   constructor(
     private router: Router,
@@ -109,44 +109,53 @@ export class ConsultarMantenimientoComponent {
       for (var i = 0; i < data.length; i++) {
         var auxTime = data[i].time;
         if (auxTime == 'DIAS') {
-          this.whit_data_days = true;
           this.equipment_array_days.push(data[i]);
         } else if (auxTime == 'HORAS') {
-          this.whit_data_hours = true;
           this.equipment_array_hours.push(data[i]);
         } else if (auxTime == 'FECHA') {
-          this.whit_data_months = true;
           this.equipment_array_months.push(data[i]);
         }
       }
     }
 
     //compruebo datos en cada arreglo
+
     if (this.equipment_array_days.length == 0) {
       this.whit_data_days = false;
       this.conData_days =
         `<h3 class="text-center py-3">
-          Aun no tenemos datos que mostrarte
+          No hay datos que mostrar en periodos registrados por dias
         </h3>
         `;
-    } else if (this.equipment_array_hours.length == 0) {
+    } else {
+      this.whit_data_days = true;
+    }
+
+    if (this.equipment_array_hours.length == 0) {
       this.whit_data_hours = false;
       this.conData_hours =
         `<h3 class="text-center py-3">
-          Aun no tenemos datos que mostrarte
+        No hay datos que mostrar en periodos registrados por horas
         </h3>
         `;
-    } else if (this.equipment_array_months.length == 0) {
+    } else {
+      this.whit_data_hours = true;
+    }
+
+    if (this.equipment_array_months.length == 0) {
       this.whit_data_months = false;
       this.conData_months =
         `<h3 class="text-center py-3">
-          Aun no tenemos datos que mostrarte
+        No hay datos que mostrar en periodos registrados por fechas
         </h3>
         `;
+    } else {
+      this.whit_data_months = true;
     }
   }
 
   updateMaintenance(equipo: any) {
+    console.log(equipo)
     window.location.href =
       '#/home/programa-mantenimiento/editar-mantenimiento?equipment_id=' + equipo.equipment_id +
       '&id=' + equipo.id +
@@ -155,7 +164,12 @@ export class ConsultarMantenimientoComponent {
       '&hours=' + equipo.hours +
       '&alertPropertie=' + equipo.alert +
       '&maintenance=' + equipo.maintenance +
-      '&observations=' + equipo.observations;
+      '&observations=' + equipo.observations +
+      '&time=' + equipo.time +
+      '&hours_days=' + equipo.hours_days +
+      '&alert_maintenance=' + equipo.alert +
+      '&initial_date=' + equipo.initial_date 
+      ;
   }
 
   async deleteMaintenance() {
@@ -180,13 +194,29 @@ export class ConsultarMantenimientoComponent {
   }
 
   onSelectChange() {
-    //TODO: implementar función de linea 150
     const selectSearch = document.getElementById("selectSearch") as HTMLSelectElement;
     console.log(selectSearch.value);
 
-    //Consumir
-    ///maintenance_list/status/?maintenance_status=vencido
-    //Se debe leer la cadena y debo separa los elementos y agruparlos por frecuencia en dias, horas y meses
+    const statusMaintenance = selectSearch.value;
+
+    this.equipment_array_hours = [];
+    this.equipment_array_days = [];
+    this.equipment_array_months = [];
+
+    //llamo a la función que me lleva al servicio
+    this.get_list_equipment_status(statusMaintenance);
   }
+
+  async get_list_equipment_status(maintenance_status: string) {
+    try {
+      const response = await this.equipmentService.get_list_maintenance_status(maintenance_status);
+      // Hacer algo con la respuesta
+      this.get_list_equiptment(response);
+    } catch (error) {
+      // Manejar el error
+      alert('ocurrio un error al cargar los datos')
+    }
+  }
+
 
 }

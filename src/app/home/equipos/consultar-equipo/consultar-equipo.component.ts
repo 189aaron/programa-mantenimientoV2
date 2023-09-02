@@ -138,8 +138,6 @@ export class ConsultarEquipoComponent {
   async get_list_disabled() {
     try {
       const response = await this.equipmentService.get_equipment_list_disabled();
-      console.log('get_list_disabled local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -150,8 +148,6 @@ export class ConsultarEquipoComponent {
   async get_list_name(listName: string) {
     try {
       const response = await this.equipmentService.get_equipment_list_name(listName);
-      console.log('get_list_name local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -162,8 +158,6 @@ export class ConsultarEquipoComponent {
   async get_list_group_no(group_no: string) {
     try {
       const response = await this.equipmentService.get_equipment_list_group_no(group_no);
-      console.log('get_list_group_no local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -174,8 +168,6 @@ export class ConsultarEquipoComponent {
   async get_list_model(model: string) {
     try {
       const response = await this.equipmentService.get_equipment_list_model(model);
-      console.log('get_list_model local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -186,8 +178,6 @@ export class ConsultarEquipoComponent {
   async get_list_trademark(model: string) {
     try {
       const response = await this.equipmentService.get_equipment_list_trademark(model);
-      console.log('get_list_trademark local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -198,8 +188,6 @@ export class ConsultarEquipoComponent {
   async get_list_equipment_responsible(model: string) {
     try {
       const response = await this.equipmentService.get_equipment_list_equipment_responsible(model);
-      console.log('get_list_equipment_responsible local');
-      console.log(response)
       // Hacer algo con la respuesta
       this.get_list_equiptment(response);
     } catch (error) {
@@ -238,10 +226,8 @@ export class ConsultarEquipoComponent {
   async deleteEquipment() {
     try {
       const result = await this.equipmentService.delete_equipment(this.serial_number);
-      console.log(this.serial_number)
-      //console.log(result); // true
     } catch (error) {
-      //console.log(error); // false
+      // false
     } finally {
       window.location.reload();
       //this.modalEliminarEquipo.hide();//Cierro modal

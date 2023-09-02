@@ -11,6 +11,10 @@ import { MaintenanceServiceService } from 'src/app/services/maintenance-service.
 })
 export class EditarMantenimientoComponent {
 
+  time: string = '';
+  hours_days: string = '';
+  alert_maintenance: string = '';
+  initial_date: Date = new Date('1900-01-01');
   equipment_id: string = '';
   id: string = '';
   description_of_work: string = '';
@@ -20,8 +24,17 @@ export class EditarMantenimientoComponent {
   maintenance: string = '';
   observations: string = '';
 
+  horasForm: boolean = false;
+  diasForm: boolean = false;
+  fechaForm: boolean = false;
+
   ngOnInit(): void {
     this.equipment_id = this.route.snapshot.queryParams['equipment_id'];
+
+    this.time = this.route.snapshot.queryParams['time'];
+    this.hours_days = this.route.snapshot.queryParams['hours_days'];
+    this.alert_maintenance = this.route.snapshot.queryParams['alert_maintenance'];
+    this.initial_date = this.route.snapshot.queryParams['initial_date'];
     this.id = this.route.snapshot.queryParams['id'];
     this.description_of_work = this.route.snapshot.queryParams['description_of_work'];
     this.intervals = this.route.snapshot.queryParams['intervals'];
@@ -30,6 +43,19 @@ export class EditarMantenimientoComponent {
     this.maintenance = this.route.snapshot.queryParams['maintenance'];
     this.observations = this.route.snapshot.queryParams['observations'];
 
+    if (this.time == 'HORAS') {
+      this.horasForm = true;
+      this.diasForm = false;
+      this.fechaForm = false;
+    } else if (this.time == 'DIAS') {
+      this.diasForm = true;
+      this.horasForm = false;
+      this.fechaForm = false;
+    } else if (this.time == 'FECHA') {
+      this.fechaForm = true;
+      this.horasForm = false;
+      this.diasForm = false;
+    }
   }
 
   constructor(
@@ -48,13 +74,21 @@ export class EditarMantenimientoComponent {
 
       const description_of_work = form['description_of_work'].value;
       const intervals = form['intervals'].value;
-      const hours = form['hours'].value;
-      const alertPropertie = form['alertPropertie'].value;
+      let hours_days = '';
+      if(this.time == 'HORAS' || this.time == 'DIAS'){
+        hours_days = form['hours_days'].value;
+      }
+      const alert_days = form['alert_maintenance'].value;
+      let initial_date;
+      console.log(this.time)
+      if(this.time == 'MESES' || this.time == 'FECHA'){
+        initial_date = form['initial_date'].value;
+      }
       const maintenance = form['maintenance'].value;
       const observations = form['observations'].value;
 
-      this.maintenanceService.updateMaintenance(this.id, this.equipment_id, description_of_work, parseInt(intervals), parseInt(hours), observations, parseInt(alertPropertie), maintenance);
-
+      this.maintenanceService.updateMaintenance(this.time, this.id, this.equipment_id, description_of_work, parseInt(intervals),  parseInt(hours_days) , parseInt(alert_days), initial_date, maintenance, observations );
+    
     } else {
       // Si el formulario no es válido
       event.preventDefault(); // Evita la recarga de la página

@@ -52,7 +52,7 @@ export class RegistrarMantenimientoComponent {
 
       //Aplica para los 3 formularios
       const intervals = form['intervals'].value;//enteros
-      const alert = form['alert'].value;//enteros
+      const alert_days = form['alert_days'].value;//enteros
 
       let hours_days: any = ''
       let initial_date: any = '';
@@ -67,7 +67,7 @@ export class RegistrarMantenimientoComponent {
         console.log(initial_date);
       }
 
-      this.maintenancetService.register_maintenance(this.serial_number, description_of_work, parseInt(intervals), parseInt(hours_days), initial_date, observations, alert, time);
+      this.maintenancetService.register_maintenance(this.serial_number, description_of_work, parseInt(intervals), parseInt(hours_days), initial_date, observations, alert_days, time);
 
     } else {
       // Si el formulario no es válido

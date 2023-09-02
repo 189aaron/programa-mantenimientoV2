@@ -68,7 +68,7 @@ export class MaintenanceServiceService {
     });
   }
 
-  updateMaintenance(id: string, equipment_id: string, description_of_work: string, intervals: number, hours: number, observations: string, alertPropertie: number, maintenance: string) {
+  updateMaintenance(time: string, id:string, equipment_id: string, description_of_work: string, intervals: number, hours_days: number, alert_maintenance: number, initial_date:Date, maintenance: string, observations: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -80,14 +80,37 @@ export class MaintenanceServiceService {
       }
     };
 
-    const body = {
+    let body: any;
+
+    if (time == 'HORAS' || time == 'DIAS') {
+      body = {
+        'time': time,
+        'description_of_work': description_of_work,
+        'intervals': intervals,
+        'hours_days': hours_days,//Este valor solo aplica para horas y dias
+        'observations': observations,
+        'alert': alert_maintenance,
+        "maintenance": maintenance
+      };
+    } else {
+      body = {
+        'time': time,
+        'description_of_work': description_of_work,
+        'intervals': intervals,
+        'initial_date': initial_date,//Este valor solo aplica para Fecha
+        'observations': observations,
+        'alert': alert_maintenance,
+        "maintenance": maintenance
+      };
+    }
+    /*const body = {
       'description_of_work': description_of_work,
       'intervals': intervals,
       'hours': hours,
       'observations': observations,
       'alert': alertPropertie,
       'maintenance': maintenance
-    };
+    };*/
 
     return this.http.put(this.loginService.path + 'configure_maintenances/', body, httpOptions).subscribe({
       next: (response: any) => {
@@ -97,6 +120,7 @@ export class MaintenanceServiceService {
       },
       error: (error: any) => {
         console.log(error)
+        alert(error.error.non_field_errors)
         //TODO: hacer escenarios de error if (error.status == '400')
       }
     });

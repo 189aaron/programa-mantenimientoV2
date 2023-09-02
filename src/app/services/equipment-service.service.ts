@@ -353,5 +353,35 @@ export class EquipmentServiceService {
     });
   }
 
+  async get_list_maintenance_status(maintenance_status:string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionStorage.getItem('id_token')
+        }),
+        params: {
+          'maintenance_status': maintenance_status,
+        }
+      };
+
+      this.http.get(this.loginService.path + 'maintenance_list/status', httpOptions).subscribe({
+        next: (response: any) => {
+          resolve(response); // Resolves the promise with the response data
+        },
+        error: (error: any) => {
+          //console.log('error del servicio get_equipment_list_disabled')
+          if (error.error.code == 'token_not_valid') {
+            alert('Caducó la sesión, por favor ingresa de nuevo');
+            this.loginService.logout();
+          } else if (error.status == '400') {
+            alert(error.error.detail);
+          }
+          reject(error); // Rejects the promise with the error
+        }
+      });
+    });
+  }
+
 }
 
